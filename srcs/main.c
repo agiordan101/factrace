@@ -6,43 +6,25 @@
 /*   By: agiordan <agiordan@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 14:21:38 by lubrun       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/03 16:16:52 by agiordan    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/03 16:57:33 by agiordan    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "factrace.h"
-/*
-   void	example_mult(char *a, char *b)
-   {
-   mpz_t x, y, result;
-
-   mpz_init_set_str(x, a, 10);
-   mpz_init_set_str(y, b, 10);
-   mpz_init(result);
-   mpz_mul(result, x, y);
-   gmp_printf("    %Zd\n"
-   "*\n"
-   "    %Zd\n"
-   "--------------------\n"
-   "%Zd\n", x, y, result);
-   mpz_clear(x);
-   mpz_clear(y);
-   mpz_clear(result);
-   }*/
 
 static int		append_str(char ***tab, char *str)
 {
 	char	**tmp;
 	int		len;
 
-	len = ft_tablen(*tab) + 2;
-	if (!(tmp = malloc(sizeof(char*) * len)))
+	len = ft_tablen(*tab);
+	if (!(tmp = (char **)malloc(sizeof(char *) * (len + 2))))
 		return (-1);
 	ft_tabcpy(*tab, tmp);
 	free(*tab);
-	tmp[len - 2] = str;
-	tmp[len - 1] = NULL;
+	tmp[len] = str;
+	tmp[len + 1] = NULL;
 	*tab = tmp;
 	return (1);
 }
@@ -96,7 +78,6 @@ static int		read_tab(char ***atab, int set_length)
 	index = 0;
 	while ((nbr = read_number()) && index < set_length)
 	{
-		printf("NBR set %d -> %s\n", index, nbr);
 		append_str(atab, nbr);
 		index++;
 	}
@@ -115,7 +96,6 @@ int				main(int ac, char **av)
 	int		i;
 
 	nbr_tab = NULL;
-	//printf("Input : %s\n", av[1]);
 	if (ac == 1 || !av)
 		return (0);
 	set_length = ft_atoi(av[1]) / 20 + 1;
@@ -130,8 +110,6 @@ int				main(int ac, char **av)
 		i++;
 	}
 	last_find++;
-	//printf("AIE %d\n", last_find);
-	//while (nbr_tab[last_find])
 	if (!(first = (t_prime *)malloc(sizeof(t_prime))))
 		return (1);
 	mpz_init_set_d(first->prime, 691);
